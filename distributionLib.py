@@ -13,12 +13,36 @@ class Dist:
     def __init__(self):
         pass
 
+    def recursion(n):
+        if n==1 or n==0:
+            return 1
+        return n*Dist.recursion(n-1)
+
+    def nPr(n,r):
+        return Dist.recursion(n)/Dist.recursion(n-r)
+    
+    def nCr(n,r):
+        return Dist.recursion(n)/(Dist.recursion(r)*Dist.recursion(n-r))
+    
+    def binomialDist(n,p=0.5,plot = False,*args):
+        temp = []
+        if not len(args):
+            for ii in range(n+2):
+##                print(ii,Dist.nCr(n+1,ii))
+                cal = Dist.nCr(n+1,ii) * p**ii * (1-p)**(n-ii)
+                temp.append(np.round(cal,4))
+        plt.plot(temp)
+        plt.show()
+        return temp
+            
+        
     def MOE(rv,moe=0.95,plot=False):
         #Margin of Error
         
         pass
-        
-    def normalDist(self,xAxis=np.arange(-1,1.01,0.01),xBar=0,sd=1,plot=False):
+
+    
+    def normalDist(xAxis=np.arange(-1,1.01,0.01),xBar=0,sd=1,plot=False):
         normalDist = 1/(sd*(2*np.pi)**0.5)*np.exp(-((xAxis-xBar)/sd)**2*1/2)
         if plot:
             plt.plot(xAxis,normalDist,label='Normal Distribution')
@@ -30,7 +54,7 @@ class Dist:
             plt.show()
         return normalDist
 
-    def __str__(self):
+    def __str__():
         return f"Distribution object"
 
 
