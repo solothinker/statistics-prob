@@ -14,6 +14,7 @@ p   = 0.5
 P   = binom(n,p,plot=True)
 coolPrint(P)
 print('-'*80)
+
 '''
 test-2
 https://www.statisticshowto.com/probability-and-statistics/binomial-theorem/binomial-distribution-formula/
@@ -30,6 +31,11 @@ print('Answer = {}'.format(prob))
 
 P = binom(10,0.6,plot=True)
 coolPrint(P)
+
+print('-'*80)
+
+
+
 
 
 

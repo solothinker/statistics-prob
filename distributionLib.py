@@ -36,15 +36,13 @@ class Dist:
                 temp.append(cal)
                 
             if plot:
+                Dist.tolp(np.arange(n+1),temp,'bar','Normal Distribution')
+##                plt.bar(np.arange(n+1),temp)
+##                plt.xlabel('Observed Value')
+##                plt.ylabel('Probability Density')
+##                plt.title('Binomial Distribution')
+##                plt.grid()
 
-                plt.bar(np.arange(n+1),temp)
-                plt.xlabel('Observed Value')
-                plt.ylabel('Probability Density')
-                plt.title('Binomial Distribution')
-                plt.grid()
-                plt.draw()
-                plt.waitforbuttonpress(0) 
-                plt.close()
         else:
             k=args[0]
             temp = Cal(n,p,k)
@@ -72,13 +70,7 @@ class Dist:
     def normalDist(xAxis=np.arange(-1,1.01,0.01),xBar=0,sd=1,plot=False):
         normalDist = 1/(sd*(2*np.pi)**0.5)*np.exp(-((xAxis-xBar)/sd)**2*1/2)
         if plot:
-            plt.plot(xAxis,normalDist,label='Normal Distribution')
-            plt.legend()
-            plt.xlabel('Observed Value')
-            plt.ylabel('Probability Density')
-            plt.title('Normal Distribution')
-            plt.grid()
-            plt.show()
+            Dist.tolp(xAxis,normalDist,'Normal Distribution')
         return normalDist
 
     def __str__():
@@ -112,6 +104,19 @@ class Dist:
         print("                 Mean = {}".format(xP))
         print("             Variance = {}".format(x2P))
         print("   Standard deviation = {:.4f}".format(sd))
+
+    def tolp(x=0,y=0,plot='plot',title='yo Distribution'):
+        if plot == 'plot':
+            plt.plot(x,y)
+        elif plot == 'bar':
+            plt.bar(x,y)
+        plt.xlabel('Observed Value')
+        plt.ylabel('Probability Density')
+        plt.title(title)
+        plt.grid()
+        plt.draw()
+        plt.waitforbuttonpress(0) 
+        plt.close()
 
             
         
