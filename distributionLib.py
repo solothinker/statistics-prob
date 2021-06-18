@@ -14,17 +14,36 @@ class Dist:
         pass
 
     def recursion(n):
+        '''Factorial Function using recursion'''
         if n==1 or n==0:
             return 1
         return n*Dist.recursion(n-1)
 
     def nPr(n,r):
+        ''' Permutations '''
         return Dist.recursion(n)/Dist.recursion(n-r)
     
     def nCr(n,r):
+        '''Combination'''
         return Dist.recursion(n)/(Dist.recursion(r)*Dist.recursion(n-r))
     
+    def expt(x):
+        ''' Expectation'''
+        xBar=0
+        for ii,jj in enumerate(x):
+            xBar += ii*jj
+        return np.round(xBar,4)
+    
+    def var(x):
+        ''' Variance''' 
+        xVar = 0
+        xBar = Dist.expt(x)
+        for ii,jj in enumerate(x):
+            xVar += jj*np.square(xBar-ii)
+        return np.round(xVar,4)
+
     def binomialDist(n,p=0.5,*args,plot=False):
+        ''' Binomial Distribution Function'''
         def Cal(n,p,k):
             test = Dist.nCr(n,k) * p**k * (1-p)**(n-k)
             return np.round(test,4)
@@ -37,29 +56,12 @@ class Dist:
                 
             if plot:
                 Dist.tolp(np.arange(n+1),temp,'bar','Normal Distribution')
-##                plt.bar(np.arange(n+1),temp)
-##                plt.xlabel('Observed Value')
-##                plt.ylabel('Probability Density')
-##                plt.title('Binomial Distribution')
-##                plt.grid()
-
         else:
             k=args[0]
             temp = Cal(n,p,k)
         return temp
             
-    def expt(x):
-        xBar=0
-        for ii,jj in enumerate(x):
-            xBar += ii*jj
-        return np.round(xBar,4)
-    
-    def var(x):
-        xVar = 0
-        xBar = Dist.expt(x)
-        for ii,jj in enumerate(x):
-            xVar += jj*np.square(xBar-ii)
-        return np.round(xVar,4)
+
         
     def MOE(rv,moe=0.95,plot=False):
         #Margin of Error
@@ -68,6 +70,7 @@ class Dist:
 
     
     def normalDist(xAxis=np.arange(-1,1.01,0.01),xBar=0,sd=1,plot=False):
+        ''' Normal Distribution Function'''
         normalDist = 1/(sd*(2*np.pi)**0.5)*np.exp(-((xAxis-xBar)/sd)**2*1/2)
         if plot:
             Dist.tolp(xAxis,normalDist,'Normal Distribution')
@@ -79,7 +82,7 @@ class Dist:
 
     
     def zTable(x=0):
-
+        '''Generating z-table'''
         def nCDF(x=0):
         # normal Cumulative Distribution Function
         # yup, I can use the normalDist object I am making it just for fun
@@ -97,6 +100,7 @@ class Dist:
             print(tabulate(df, headers = 'keys', tablefmt = 'pretty'))
 
     def coolPrint(P):
+        '''printing necessary information''' 
         xP  = Dist.expt(P)
         x2P = Dist.var(P)
         sd  = np.sqrt(x2P)
@@ -106,6 +110,8 @@ class Dist:
         print("   Standard deviation = {:.4f}".format(sd))
 
     def tolp(x=0,y=0,plot='plot',title='yo Distribution'):
+        ''' Single Plot function '''
+        
         if plot == 'plot':
             plt.plot(x,y)
         elif plot == 'bar':
