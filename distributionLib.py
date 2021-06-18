@@ -24,17 +24,44 @@ class Dist:
     def nCr(n,r):
         return Dist.recursion(n)/(Dist.recursion(r)*Dist.recursion(n-r))
     
-    def binomialDist(n,p=0.5,plot = False,*args):
+    def binomialDist(n,p=0.5,*args,plot=False):
+        def Cal(n,p,k):
+            test = Dist.nCr(n,k) * p**k * (1-p)**(n-k)
+            return np.round(test,4)
+        
         temp = []
         if not len(args):
-            for ii in range(n+2):
-##                print(ii,Dist.nCr(n+1,ii))
-                cal = Dist.nCr(n+1,ii) * p**ii * (1-p)**(n-ii)
-                temp.append(np.round(cal,4))
-        plt.plot(temp)
-        plt.show()
+            for k in range(n+1):
+                cal = Cal(n,p,k)
+                temp.append(cal)
+                
+            if plot:
+
+                plt.bar(np.arange(n+1),temp)
+                plt.xlabel('Observed Value')
+                plt.ylabel('Probability Density')
+                plt.title('Binomial Distribution')
+                plt.grid()
+                plt.draw()
+                plt.waitforbuttonpress(0) 
+                plt.close()
+        else:
+            k=args[0]
+            temp = Cal(n,p,k)
         return temp
             
+    def expt(x):
+        xBar=0
+        for ii,jj in enumerate(x):
+            xBar += ii*jj
+        return np.round(xBar,4)
+    
+    def var(x):
+        xVar = 0
+        xBar = Dist.expt(x)
+        for ii,jj in enumerate(x):
+            xVar += jj*np.square(xBar-ii)
+        return np.round(xVar,4)
         
     def MOE(rv,moe=0.95,plot=False):
         #Margin of Error
@@ -76,6 +103,15 @@ class Dist:
                 for jj in columns:
                     df.loc[ii,jj],_ = np.round(np.abs(quad(nCDF,np.Inf, ii+jj)),5)
             print(tabulate(df, headers = 'keys', tablefmt = 'pretty'))
+
+    def coolPrint(P):
+        xP  = Dist.expt(P)
+        x2P = Dist.var(P)
+        sd  = np.sqrt(x2P)
+        print("Binomial Distribution = {}".format(P))
+        print("                 Mean = {}".format(xP))
+        print("             Variance = {}".format(x2P))
+        print("   Standard deviation = {:.4f}".format(sd))
 
             
         
