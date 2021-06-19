@@ -55,13 +55,23 @@ class Dist:
                 temp.append(cal)
                 
             if plot:
-                Dist.tolp(np.arange(n+1),temp,'bar','Normal Distribution')
+                Dist.tolp(np.arange(n+1),temp,title='Normal Distribution')
         else:
             k=args[0]
             temp = Cal(n,p,k)
         return temp
             
-
+    def poissonDist(lam=1,k=1,plot=True):
+        def Cal(lam,k):
+            return np.round(lam**k * np.exp(-lam) / Dist.recursion(k),4)
+        temp = []
+        if plot:
+            for ii in range(k+1):
+                temp.append(Cal(lam,ii))
+            Dist.tolp(np.arange(0,k+1),temp,plot='bar',title='Poisson Distribution')
+        else:
+            temp = Cal(lam,k)
+        return temp
         
     def MOE(rv,moe=0.95,plot=False):
         #Margin of Error
@@ -73,7 +83,7 @@ class Dist:
         ''' Normal Distribution Function'''
         normalDist = 1/(sd*(2*np.pi)**0.5)*np.exp(-((xAxis-xBar)/sd)**2*1/2)
         if plot:
-            Dist.tolp(xAxis,normalDist,'Normal Distribution')
+            Dist.tolp(xAxis,normalDist,'Normal Distribution',plot='bar')
         return normalDist
 
     def __str__():
@@ -104,10 +114,10 @@ class Dist:
         xP  = Dist.expt(P)
         x2P = Dist.var(P)
         sd  = np.sqrt(x2P)
-        print("Binomial Distribution = {}".format(P))
-        print("                 Mean = {}".format(xP))
-        print("             Variance = {}".format(x2P))
-        print("   Standard deviation = {:.4f}".format(sd))
+        print("      Distribution = {}".format(P))
+        print("              Mean = {}".format(xP))
+        print("          Variance = {}".format(x2P))
+        print("Standard deviation = {:.4f}".format(sd))
 
     def tolp(x=0,y=0,plot='plot',title='yo Distribution'):
         ''' Single Plot function '''
@@ -115,7 +125,7 @@ class Dist:
         if plot == 'plot':
             plt.plot(x,y)
         elif plot == 'bar':
-            plt.bar(x,y)
+            plt.bar(x,y,width=0.2)
         plt.xlabel('Observed Value')
         plt.ylabel('Probability Density')
         plt.title(title)
