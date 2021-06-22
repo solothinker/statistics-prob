@@ -27,19 +27,49 @@ class Dist:
         '''Combination'''
         return Dist.recursion(n)/(Dist.recursion(r)*Dist.recursion(n-r))
     
-    def expt(x):
+    def expt(*args,sample=False):
         ''' Expectation'''
+        if len(args) == 1:
+            y = args[0]
+            x = 0
+        else:
+            x = args[0]
+            y = args[1]
+
         xBar=0
-        for ii,jj in enumerate(x):
-            xBar += ii*jj
+        if not x:
+            x = np.arange(len(y))
+            
+        if np.round(np.sum(y),2) == 1:
+            for ii,jj in enumerate(y):
+                xBar += x[ii]*jj
+        else:
+            xBar = np.mean(x)
+            
         return np.round(xBar,4)
     
-    def var(x):
+    def var(y, x=0,sample=False):
         ''' Variance''' 
+        #https://www.mathsisfun.com/data/random-variables-mean-variance.html
         xVar = 0
-        xBar = Dist.expt(x)
-        for ii,jj in enumerate(x):
-            xVar += jj*np.square(xBar-ii)
+        if not x:
+            x = np.arange(len(y))
+            
+        if np.round(np.sum(y),2) == 1:
+            xBar = Dist.expt(y)
+            for ii,jj in enumerate(y):
+                xVar += x[ii]**2 * jj
+            xVar -= xBar**2
+
+        else:
+            xBar = np.mean(y)
+            for ii in y:
+                xVar += np.square(ii-xBar)
+            if sample:
+                xVar /= (len(y)-1)
+            else:
+                xVar /= len(y)
+        
         return np.round(xVar,4)
 
     def binomialDist(n,p=0.5,*args,plot=False):
