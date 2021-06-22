@@ -27,18 +27,19 @@ class Dist:
         '''Combination'''
         return Dist.recursion(n)/(Dist.recursion(r)*Dist.recursion(n-r))
     
-    def expt(*args,sample=False):
+    def expt(*args):
         ''' Expectation'''
         if len(args) == 1:
             y = args[0]
-            x = 0
+            x = np.arange(len(y))
         else:
             x = args[0]
             y = args[1]
 
         xBar=0
-        if not x:
-            x = np.arange(len(y))
+        
+##        if not x:
+##            x = np.arange(len(y))
             
         if np.round(np.sum(y),2) == 1:
             for ii,jj in enumerate(y):
@@ -48,15 +49,19 @@ class Dist:
             
         return np.round(xBar,4)
     
-    def var(y, x=0,sample=False):
+    def var(*args,sample=False):
         ''' Variance''' 
-        #https://www.mathsisfun.com/data/random-variables-mean-variance.html
+        
         xVar = 0
-        if not x:
+        if len(args) == 1:
+            y = args[0]
             x = np.arange(len(y))
+        else:
+            x = args[0]
+            y = args[1]
             
         if np.round(np.sum(y),2) == 1:
-            xBar = Dist.expt(y)
+            xBar = Dist.expt(x,y)
             for ii,jj in enumerate(y):
                 xVar += x[ii]**2 * jj
             xVar -= xBar**2
@@ -139,10 +144,17 @@ class Dist:
                     df.loc[ii,jj],_ = np.round(np.abs(quad(nCDF,np.Inf, ii+jj)),5)
             print(tabulate(df, headers = 'keys', tablefmt = 'pretty'))
 
-    def coolPrint(P):
-        '''printing necessary information''' 
-        xP  = Dist.expt(P)
-        x2P = Dist.var(P)
+    def coolPrint(*args):
+        '''printing necessary information'''
+        if len(args) == 1:
+            P = args[0]
+            x = np.arange(len(P))
+        else:
+            x = args[0]
+            P = args[1]
+            
+        xP  = Dist.expt(x,P)
+        x2P = Dist.var(x,P)
         sd  = np.sqrt(x2P)
         print("      Distribution = {}".format(P))
         print("              Mean = {}".format(xP))
