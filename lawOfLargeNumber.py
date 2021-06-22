@@ -24,7 +24,7 @@ plt.xlim(0,sampleLook)
 plt.title('Law of Large Numbers')
 plt.xlabel('Number of samples')
 plt.ylabel('Mean of sample Data')
-filenames = []
+##filenames = []
 for ii in range(sampleLook):
     tSample = np.random.randint(0, N,size=(sample,1))
     temp += np.mean(data[tSample])
@@ -34,18 +34,18 @@ for ii in range(sampleLook):
             plt.legend()
         else:
             plt.scatter(ii,temp/(ii+1),color='k')
-        filename = f'{ii}.png'
-        filenames.append(filename)
+##        filename = f'{ii}.png'
+##        filenames.append(filename)
         plt.pause(0.00001)
         plt.draw()
-        plt.savefig(filename)
+##        plt.savefig(filename)
 
-with imageio.get_writer('mygif.gif', mode='I') as writer:
-    for filename in filenames:
-        image = imageio.imread(filename)
-        writer.append_data(image)
-        
-# Remove files
-for filename in set(filenames):
-    os.remove(filename)
-    
+##with imageio.get_writer('mygif.gif', mode='I') as writer:
+##    for filename in filenames:
+##        image = imageio.imread(filename)
+##        writer.append_data(image)
+##        
+### Remove files
+##for filename in set(filenames):
+##    os.remove(filename)
+##    

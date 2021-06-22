@@ -3,6 +3,6 @@ During my academics I was afraid about _Statistics and Probability_. Now, I am w
 
 To develop my understanding, I am going through the [Khan Academic Statistics](https://www.youtube.com/watch?v=uhxtUt_-GyM&list=PL1328115D3D8A2566) video lectures
 
-Law of large number implementation result
+Law of large numbers implementation result
 
 <img src="/imgs/mygif.gif" width="600" height="400">
