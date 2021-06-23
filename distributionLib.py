@@ -29,6 +29,7 @@ class Dist:
     
     def expt(*args):
         ''' Expectation'''
+        
         if len(args) == 1:
             y = args[0]
             x = np.arange(len(y))
@@ -37,10 +38,7 @@ class Dist:
             y = args[1]
 
         xBar=0
-        
-##        if not x:
-##            x = np.arange(len(y))
-            
+                   
         if np.round(np.sum(y),2) == 1:
             for ii,jj in enumerate(y):
                 xBar += x[ii]*jj
