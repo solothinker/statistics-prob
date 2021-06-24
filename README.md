@@ -6,3 +6,10 @@ To develop my understanding, I am going through the [Khan Academic Statistics](h
 Law of large numbers implementation result
 
 <img src="/imgs/mygif.gif" width="600" height="400">
+
+Central Limit theorem implementation result
+
+<img src="/imgs/CLF.gif" width="600" height="400">
+
+**Conclusion** - The mean of samples of data is closer to the mean of the overall population
+

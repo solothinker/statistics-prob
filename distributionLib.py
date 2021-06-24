@@ -5,6 +5,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.integrate import quad
 from tabulate import tabulate
+import os
+import imageio
+import warnings
+warnings.filterwarnings("ignore")
 
 plt.rcParams["figure.figsize"] = (20,10)
 np.random.seed(404)
@@ -173,6 +177,17 @@ class Dist:
         plt.draw()
         plt.waitforbuttonpress(0) 
         plt.close()
+
+    def gif(filenames,gifName='mygif.gif'):
+        # build gif
+        with imageio.get_writer(gifName, mode='I') as writer:
+            for filename in filenames:
+                image = imageio.imread(filename)
+                writer.append_data(image)
+        
+        # Remove files
+        for filename in set(filenames):
+            os.remove(filename)
 
             
         
