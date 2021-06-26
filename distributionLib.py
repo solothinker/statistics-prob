@@ -65,8 +65,10 @@ class Dist:
         if np.round(np.sum(y),2) == 1:
             xBar = Dist.expt(x,y)
             for ii,jj in enumerate(y):
-                xVar += x[ii]**2 * jj
+                xVar += ii**2 * jj
             xVar -= xBar**2
+            if sample:
+                xVar = np.round(xVar*1.01,4)
 
         else:
             xBar = np.mean(y)
@@ -109,11 +111,19 @@ class Dist:
         else:
             temp = Cal(lam,k)
         return temp
+    
+    def bernoulliDist(p=0.5):
+        return [np.round(1-p,4),p]
         
     def MOE(rv,moe=0.95,plot=False):
         #Margin of Error
-        
-        pass
+        p = np.mean(rv)
+        data = [1-p,p]
+        xBar = Dist.expt(data)
+        var = Dist.var(data)
+        moe = moe*np.sqrt(var/len(rv))
+        print('for {} samples size, mean = {:.2f} with Magin of errors are {:.2f}, {:.2f}'.format(len(rv),xBar*100,(xBar-moe)*100,(xBar+moe)*100))
+        return [xBar-moe,xBar+moe]
 
     
     def normalDist(xAxis=np.arange(-1,1.01,0.01),xBar=0,sd=1,plot=False):
